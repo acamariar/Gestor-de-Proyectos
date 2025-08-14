@@ -69,4 +69,10 @@ router.get(
   handleInputErrors,
   TaskController.getProjectTasks
 );
+router.get(
+  "/:projectId/tasks/:taskId",
+  validateProjectExist,
+  handleInputErrors,
+  TaskController.getTaskById
+);
 export default router;
