@@ -54,6 +54,13 @@ router.delete(
 router.post(
   "/:projectId/tasks",
   validateProjectExist,
+  body("name")
+    .notEmpty()
+    .withMessage("El nombre de la tarea no puede estar vacio"),
+  body("description")
+    .notEmpty()
+    .withMessage("La descripción de la tarea no puede estar vacia"),
+  handleInputErrors,
   TaskController.createTask
 );
 export default router;
