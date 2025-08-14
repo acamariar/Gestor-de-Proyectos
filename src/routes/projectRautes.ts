@@ -50,10 +50,9 @@ router.delete(
 );
 
 // Rutas para las tareas
-
+router.param("projectId", validateProjectExist);
 router.post(
   "/:projectId/tasks",
-  validateProjectExist,
   body("name")
     .notEmpty()
     .withMessage("El nombre de la tarea no puede estar vacio"),
@@ -65,13 +64,12 @@ router.post(
 );
 router.get(
   "/:projectId/tasks",
-  validateProjectExist,
   handleInputErrors,
   TaskController.getProjectTasks
 );
 router.get(
   "/:projectId/tasks/:taskId",
-  validateProjectExist,
+  param("taskId").isMongoId().withMessage("El ID de la tarea no es válido"),
   handleInputErrors,
   TaskController.getTaskById
 );
