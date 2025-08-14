@@ -17,7 +17,7 @@ export const TaskSchema: Schema = new Schema(
   {
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
-    project: { type: Types.ObjectId, ref: "project" },
+  project: { type: Types.ObjectId, ref: "Project" },
     status: {
       type: String,
       enum: Object.values(taskStatus),
