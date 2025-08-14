@@ -63,4 +63,10 @@ router.post(
   handleInputErrors,
   TaskController.createTask
 );
+router.get(
+  "/:projectId/tasks",
+  validateProjectExist,
+  handleInputErrors,
+  TaskController.getProjectTasks
+);
 export default router;

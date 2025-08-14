@@ -21,4 +21,12 @@ export class TaskController {
       console.log(error);
     }
   };
+  static getProjectTasks = async (req: Request, res: Response) => {
+    try {
+      const tasks = await Task.find({ project: req.project.id });
+      res.json(tasks);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
