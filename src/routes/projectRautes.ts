@@ -73,4 +73,17 @@ router.get(
   handleInputErrors,
   TaskController.getTaskById
 );
+
+router.put(
+  "/:projectId/tasks/:taskId",
+  param("taskId").isMongoId().withMessage("El ID de la tarea no es válido"),
+  body("name")
+    .notEmpty()
+    .withMessage("El nombre de la tarea no puede estar vacio"),
+  body("description")
+    .notEmpty()
+    .withMessage("La descripción de la tarea no puede estar vacia"),
+  handleInputErrors,
+  TaskController.updateTask
+);
 export default router;
