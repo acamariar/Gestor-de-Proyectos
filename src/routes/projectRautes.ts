@@ -2,6 +2,8 @@ import { Router } from "express";
 import { ProjectController } from "../controllers/ProjectController";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware/validation";
+import { TaskController } from "../controllers/TakController";
+import { validateProjectExist } from "../middleware/project";
 
 const router = Router();
 router.post(
@@ -45,5 +47,43 @@ router.delete(
   param("id").isMongoId().withMessage("El ID del proyecto no es válido"),
   handleInputErrors,
   ProjectController.deleteProject
+);
+
+// Rutas para las tareas
+router.param("projectId", validateProjectExist);
+router.post(
+  "/:projectId/tasks",
+  body("name")
+    .notEmpty()
+    .withMessage("El nombre de la tarea no puede estar vacio"),
+  body("description")
+    .notEmpty()
+    .withMessage("La descripción de la tarea no puede estar vacia"),
+  handleInputErrors,
+  TaskController.createTask
+);
+router.get(
+  "/:projectId/tasks",
+  handleInputErrors,
+  TaskController.getProjectTasks
+);
+router.get(
+  "/:projectId/tasks/:taskId",
+  param("taskId").isMongoId().withMessage("El ID de la tarea no es válido"),
+  handleInputErrors,
+  TaskController.getTaskById
+);
+
+router.put(
+  "/:projectId/tasks/:taskId",
+  param("taskId").isMongoId().withMessage("El ID de la tarea no es válido"),
+  body("name")
+    .notEmpty()
+    .withMessage("El nombre de la tarea no puede estar vacio"),
+  body("description")
+    .notEmpty()
+    .withMessage("La descripción de la tarea no puede estar vacia"),
+  handleInputErrors,
+  TaskController.updateTask
 );
 export default router;
